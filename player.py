@@ -19,10 +19,7 @@ class Player(Creature, PlayerGameLogic):
             deck.add_card(AttackCard())
         deck.shuffle()
 
-        self.max_energy = 3
-        self.current_energy = 3
-
-        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 20)
+        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 30)
 
         self.selected_card = Card()
 
@@ -40,10 +37,13 @@ class Player(Creature, PlayerGameLogic):
         self.show_energy()
 
     def show_energy(self):
+        self.change_energy_text()
         self.energy_text.draw()
 
     def change_energy_text(self):
-        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 20)
+        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 30)
+
+
 
 
 

@@ -1,7 +1,7 @@
 import sys
 import pygame
 from screen import screen1
-from buttons import InterfaceButton
+from button import InterfaceButton
 from card import Card
 from recthandler import RectangleHandler
 from rectangle import InteractiveRectangle

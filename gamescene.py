@@ -15,6 +15,7 @@ class GameScene:
         self.interface = GameInterface()
         self.actual_fight = fight1
         self.position_enemy_on_screen()
+        self.turn = 0
         player1.draw_initial_cards()
 
     def position_enemy_on_screen(self):
@@ -31,6 +32,10 @@ class GameScene:
             en.draw_interface()
         player1.draw_cards_interface()
 
+    def enemies_turn(self):
+        for enemy in self.actual_fight.enemies:
+            enemy.attack(player1)
+
     def principal(self):
         screen1.fill((00,00,00))
         for event in pygame.event.get():
@@ -42,6 +47,10 @@ class GameScene:
                 if event.key == pygame.K_SPACE:
                     player1.draw_cards(1)
 
+            if self.interface.pass_turn_button.check_mouse_click(event):
+                self.turn += 1
+                print(self.turn)
+
             for en in self.actual_fight.enemies:
                 for card in hand.cards:
                     try:
@@ -52,6 +61,11 @@ class GameScene:
             card_handler.select_rectangle(event)
             player1.selected_card = card_handler.selected_rectangle
 
+        if self.turn%2 == 1:
+            player1.discard_hand()
+            self.enemies_turn()
+            self.turn += 1
+            player1.start_turn()
         card_handler.move_rectangle()
         self.interface.draw()
         self.draw_creatures()

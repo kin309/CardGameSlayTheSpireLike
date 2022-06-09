@@ -7,7 +7,7 @@ class Fight:
         self.enemies = []
         self.rewards = []
         for x in range(num_of_enemies):
-            self.add_enemie(Enemy())
+            self.add_enemie(Enemy(1))
 
     def add_enemie(self, enemy):
         self.enemies.append(copy.copy(enemy))

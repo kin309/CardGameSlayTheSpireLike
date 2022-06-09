@@ -3,8 +3,11 @@ from random import choice
 from hand import hand
 
 class PlayerGameLogic:
-
-    initial_draw = 5
+    def __init__(self):
+        self.initial_draw = 5
+        self.draw_for_turn = 5
+        self.max_energy = 3
+        self.current_energy = 3
 
     def shuffle_discard_pile(self):
         for card in discardpile.cards:
@@ -25,6 +28,11 @@ class PlayerGameLogic:
                 hand.add_card(deck.cards[0])
                 deck.remove_card(deck.cards[0])
 
+    def discard_hand(self):
+        for card in hand.cards:
+            discardpile.add_card(card)
+        hand.cards.clear()
+
     def draw_initial_cards(self):
         for x in range(self.initial_draw):
             self.draw_cards(1)
@@ -41,3 +49,10 @@ class PlayerGameLogic:
             print("Sem energa")
             card.go_to_initial_pos()
             card.selected = False
+
+    def start_turn(self):
+        self.current_energy = self.max_energy
+        self.draw_cards(self.draw_for_turn)
+
+
+
