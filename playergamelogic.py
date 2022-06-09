@@ -13,14 +13,15 @@ class PlayerGameLogic:
 
     def draw_cards(self, num):
         for x in range(num):
-            try:
-                drawn_card = choice(deck.cards)
+            if len(deck.cards) > 0:
+                drawn_card = deck.cards[0]
                 deck.remove_card(drawn_card)
                 hand.add_card(drawn_card)
-            except IndexError:
+            else:
+
                 print("Não há cartas no seu deck")
 
-    def draw_initial_hand(self):
+    def draw_initial_cards(self):
         for x in range(self.initial_draw):
             self.draw_cards(1)
 

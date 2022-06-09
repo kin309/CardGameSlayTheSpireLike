@@ -33,5 +33,8 @@ class CardPile(Rectangle, CardSet):
         self.text = Text(f"{self.num_of_cards}", self.rect.x + self.rect.width / 2, self.rect.y + self.rect.height / 2,
                          40, "center")
 
+    def reshuffle(self):
+        pass
+
 discardpile = CardPile((120, 120, 100), (80, 80, 80), x=1440)
 deck = CardPile((100,100,120),(80,80,80), x=20)

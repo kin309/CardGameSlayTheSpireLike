@@ -42,7 +42,6 @@ class Creature(Rectangle):
                               self.healthb_posy+self.healthb_height/2, 20, "center")
 
     def take_damage(self, damage):
-        print(self.current_block)
         hp_taken_dmg = damage - self.current_block
         self.current_block -= damage
         if damage - self.current_block < 0:

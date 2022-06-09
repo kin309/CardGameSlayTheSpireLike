@@ -15,6 +15,7 @@ class GameScene:
         self.interface = GameInterface()
         self.actual_fight = fight1
         self.position_enemy_on_screen()
+        player1.draw_initial_cards()
 
     def position_enemy_on_screen(self):
         card_width = 120

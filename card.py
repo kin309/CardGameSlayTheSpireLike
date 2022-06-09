@@ -66,6 +66,10 @@ class Card(InteractiveRectangle):
     def go_to_original_font_size(self):
         self.font_size = self.original_font_size
 
+    def go_to_original_size(self):
+        self.resize(self.original_width_size, self.original_height_size)
+        self.go_to_original_font_size()
+
     def resize(self, width, height):
         self.rect.width = width
         self.rect.height = height
@@ -123,6 +127,7 @@ class BuyCard(Card):
     def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2):
         super(BuyCard, self).__init__(x, y, width, height, color)
         self.block = block
+        self.num_of_cards_to_buy = 1
 
     def play(self, target):
         if self.rect.y < 460 and mouse.get_pressed()[0] is True:
@@ -132,5 +137,6 @@ class BuyCard(Card):
 
     def use(self, target, player):
         if mouse.get_pressed()[0] is True:
-            for x in range(2):
-                hand.add_card(AttackCard())
+            for x in range(self.num_of_cards_to_buy):
+                player.draw_cards(1)
+            print('Jogou')

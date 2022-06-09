@@ -2,10 +2,13 @@ import pygame
 from hand import hand
 from rectangle import InteractiveRectangle
 from pygame import mouse
+from card import Card
 
 class RectangleHandler:
     def __init__(self, rectangles_list):
-        self.selected_rectangle = InteractiveRectangle()
+        self.selected_rectangle = Card()
+        self.dragged_rectangle = Card()
+        self.draggin = False
         self.rectangles = rectangles_list
         self.set_index()
         self.colliding = False
@@ -33,7 +36,8 @@ class RectangleHandler:
         self.count_collisions()
         for rect in self.rectangles:
             for rectos in self.rectangles:
-                if rect.mouse_collide() and rectos.mouse_collide() and mouse.get_pressed()[0] is False:
+                # Checa se o mouse esta sobre dois objetos e não está com o botão pressionado
+                if rect.mouse_collide() and rectos.mouse_collide() and mouse.get_pressed()[0] is False and not self.draggin:
                     if rect != rectos:
                         if rect.index > rectos.index:
                             self.selected_rectangle = rect
@@ -42,32 +46,33 @@ class RectangleHandler:
                     else:
                         self.selected_rectangle = rect
         try:
-            if self.selected_rectangle.mouse_collide() and self.selected_rectangle.normal_size is True:
+            # Checa se o mouse está sobre um objeto e se esse objeto está em seu tamanho normal
+            if self.selected_rectangle.mouse_collide() and self.selected_rectangle.normal_size and not self.draggin:
                 self.selected_rectangle.resize(self.selected_rectangle.resized_width, self.selected_rectangle.resized_height)
                 self.selected_rectangle.normal_size = False
                 self.selected_rectangle.set_text()
         except AttributeError:
             pass
-        if event.type == pygame.MOUSEBUTTONUP:
-            try:
-                self.selected_rectangle.go_to_initial_pos()
-            except AttributeError:
-                pass
         try:
             for rect in self.rectangles:
                 if rect.mouse_collide() is False and rect.normal_size is False and self.selected_rectangle.selected is False:
                     rect.resize(rect.original_width_size,
                                                    rect.original_height_size)
-                    rect.go_to_original_font_size()
+                    rect.go_to_original_size()
                     rect.go_to_initial_pos()
                     rect.normal_size = True
+                    self.draggin = False
         except AttributeError:
             pass
         try:
             if self.colliding is False and self.selected_rectangle.selected is False or mouse.get_pressed()[2]:
-
+                if self.draggin:
+                    self.selected_rectangle.go_to_original_size()
+                    self.selected_rectangle.normal_size = True
+                    self.selected_rectangle.go_to_initial_pos()
                 self.selected_rectangle.selected = False
                 self.selected_rectangle = None
+                self.draggin = False
         except AttributeError:
             pass
 
@@ -75,6 +80,7 @@ class RectangleHandler:
         try:
             if self.selected_rectangle.mouse_collide() and mouse.get_pressed()[0]:
                 self.selected_rectangle.selected = True
+                self.draggin = True
             elif mouse.get_pressed()[1]:
                 self.selected_rectangle.selected = False
         except AttributeError:
@@ -104,7 +110,7 @@ class RectangleHandler:
                 self.selected_rectangle.set_text()
             elif self.selected_rectangle.mouse_collide() is False and self.selected_rectangle.normal_size is False:
                 self.selected_rectangle.resize(self.selected_rectangle.original_width_size, self.selected_rectangle.original_height_size)
-                self.selected_rectangle.go_to_original_font_size()
+                self.selected_rectangle.go_to_original_size()
                 self.selected_rectangle.go_to_initial_pos()
                 self.normal_size = True
         except:
