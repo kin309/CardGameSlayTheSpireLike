@@ -6,20 +6,21 @@ from hand import hand
 
 
 class Card(InteractiveRectangle):
-    def  __init__(self, x=0, y=0, width=120, height=160, color=(100, 170, 30), cost=0, card_name = "Card"):
+    def  __init__(self, x=0, y=0, width=120, height=160, color=(100, 170, 30), cost=0, card_name="card"):
         super().__init__(x, y, width, height, color, True, (155, 205, 145))
         self.cost = cost
         self.font_size = 20
         self.original_font_size = 20
         self.resized_font = int(self.original_font_size*1.4)
         self.cost_text = Text(f"{self.cost}", self.rect.x, self.rect.y, self.font_size)
-        self.description_text = Text("Essa Carta não possui descrição!", self.rect.x, self.rect.y, int(self.font_size*0.7))
+        self.description_text = "Essa carta não possui descrição!"
+        self.description = Text(self.description_text, self.rect.x, self.rect.y, int(self.font_size * 0.7))
         self.card_name = card_name
         self.card_name_text = Text(self.card_name, self.rect.x, self.rect.y, self.font_size)
-
+        self.draggin = False
 
     def play(self, target):
-        if self.rect.y < 360 and mouse.get_pressed()[0] is False:
+        if self.rect.y < 460 and mouse.get_pressed()[0] is True:
             return True
         else:
             return False
@@ -32,13 +33,13 @@ class Card(InteractiveRectangle):
     def texts_interface(self):
         self.card_name_text.draw()
         self.cost_text.draw()
-        self.description_text.draw()
+        self.description.draw()
 
     def set_card_name_text(self):
         self.card_name_text = Text(self.card_name, self.rect.x+25, self.rect.y, self.font_size)
 
     def set_description_text(self):
-        self.description_text = Text("Essa Carta não possui descrição!", self.rect.x, self.rect.y+30, int(self.font_size*0.7))
+        self.description = Text(self.description_text, self.rect.x, self.rect.y + 30, int(self.font_size * 0.7))
 
 
     def move(self):
@@ -94,9 +95,11 @@ class Card(InteractiveRectangle):
             pass
 
 class AttackCard(Card):
-    def __init__(self, x=0, y=0, width=140, height=180, color=(100, 30, 30), damage=3):
-        super(AttackCard, self).__init__(x, y, width, height, color)
+    def __init__(self, x=0, y=0, width=140, height=180, color=(100, 30, 30), damage=3, cost = 1):
+        super(AttackCard, self).__init__(x, y, width, height, color, cost = cost, card_name="Attack Card")
         self.damage = damage
+        self.description_text = "1 Dano"
+        self.set_description_text()
 
     def play(self, target):
         if self.rect.colliderect(target) and mouse.get_pressed()[0] is True and target.current_hp > 0:
@@ -105,38 +108,29 @@ class AttackCard(Card):
             return False
 
     def use(self, target, player):
-            target.take_damage(self.damage)
+        target.take_damage(self.damage)
 
 
 class DefenseCard(Card):
-    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2):
-        super(DefenseCard, self).__init__(x, y, width, height, color)
+    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2, cost = 1):
+        super(DefenseCard, self).__init__(x, y, width, height, color, cost=cost, card_name="Defense Card")
         self.block = block
 
-    def play(self, target):
-        if self.rect.y < 360 and mouse.get_pressed()[0] is True:
-            return True
-        else:
-            return False
 
     def use(self, target, player):
         if mouse.get_pressed()[0] is True:
             player.current_block += self.block
 
 class BuyCard(Card):
-    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2):
-        super(BuyCard, self).__init__(x, y, width, height, color)
+    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2, cost = 1):
+        super(BuyCard, self).__init__(x, y, width, height, color, cost=cost, card_name="Buy Card")
         self.block = block
         self.num_of_cards_to_buy = 1
+        self.description_text = "Compra 1"
+        self.set_description_text()
 
-    def play(self, target):
-        if self.rect.y < 460 and mouse.get_pressed()[0] is True:
-            return True
-        else:
-            return False
 
     def use(self, target, player):
         if mouse.get_pressed()[0] is True:
             for x in range(self.num_of_cards_to_buy):
                 player.draw_cards(1)
-            print('Jogou')

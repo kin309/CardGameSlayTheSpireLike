@@ -1,14 +1,16 @@
 from enemy import Enemy
+import copy
 
 class Fight:
     def __init__(self, num_of_enemies):
         self.number_of_enemies = num_of_enemies
         self.enemies = []
         self.rewards = []
-        self.add_enemies(2, Enemy())
+        for x in range(num_of_enemies):
+            self.add_enemie(Enemy())
 
-    def add_enemies(self, num, enemy):
-        for x in range(num):
-            self.enemies.append(enemy)
+    def add_enemie(self, enemy):
+        self.enemies.append(copy.copy(enemy))
+
 
 fight1 = Fight(2)

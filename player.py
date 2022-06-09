@@ -5,6 +5,7 @@ from creature import Creature
 from card import *
 from random import choice
 from playergamelogic import PlayerGameLogic
+from text import Text
 
 class Player(Creature, PlayerGameLogic):
     def __init__(self, x=180, y=400, width=100, height=100, colorz=(10,120,30), border=True, border_color=(100,170,100)):
@@ -14,9 +15,14 @@ class Player(Creature, PlayerGameLogic):
         hand.set_interface()
         for x in range(6):
             deck.add_card(BuyCard())
+        for x in range(1):
+            deck.add_card(AttackCard())
+        deck.shuffle()
 
         self.max_energy = 3
         self.current_energy = 3
+
+        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 20)
 
         self.selected_card = Card()
 
@@ -31,6 +37,13 @@ class Player(Creature, PlayerGameLogic):
             self.selected_card.interface()
         except AttributeError:
             pass
+        self.show_energy()
+
+    def show_energy(self):
+        self.energy_text.draw()
+
+    def change_energy_text(self):
+        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 20)
 
 
 

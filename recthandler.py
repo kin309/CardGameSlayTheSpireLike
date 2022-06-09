@@ -6,8 +6,8 @@ from card import Card
 
 class RectangleHandler:
     def __init__(self, rectangles_list):
-        self.selected_rectangle = Card()
-        self.dragged_rectangle = Card()
+        self.selected_rectangle = Card(card_name="card")
+        self.dragged_rectangle = Card(card_name="card")
         self.draggin = False
         self.rectangles = rectangles_list
         self.set_index()

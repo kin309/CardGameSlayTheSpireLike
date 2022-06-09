@@ -3,6 +3,7 @@ import pygame.draw
 from rectangle import Rectangle
 from screen import screen1
 from gametable import GameTable
+from buttons import Button
 
 
 class GameInterface(Rectangle):
@@ -11,6 +12,9 @@ class GameInterface(Rectangle):
 
         self.table = GameTable()
 
+        self.pass_turn_button = Button(800, 500, 180, 100)
+
     def draw(self):
         self.table.draw()
         pygame.draw.rect(screen1, self.color, self.rect)
+

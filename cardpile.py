@@ -2,6 +2,7 @@ from rectangle import Rectangle
 from cardset import CardSet
 from text import Text
 from card import Card
+from random import shuffle
 
 
 class CardPile(Rectangle, CardSet):
@@ -33,8 +34,8 @@ class CardPile(Rectangle, CardSet):
         self.text = Text(f"{self.num_of_cards}", self.rect.x + self.rect.width / 2, self.rect.y + self.rect.height / 2,
                          40, "center")
 
-    def reshuffle(self):
-        pass
+    def shuffle(self):
+        shuffle(self.cards)
 
 discardpile = CardPile((120, 120, 100), (80, 80, 80), x=1440)
 deck = CardPile((100,100,120),(80,80,80), x=20)
