@@ -43,15 +43,18 @@ class Creature(Rectangle):
 
     def take_damage(self, damage):
         hp_taken_dmg = damage - self.current_block
+        print(f"{damage} - {self.current_block} = {hp_taken_dmg}")
         self.current_block -= damage
-        if damage - self.current_block < 0:
-            hp_taken_dmg = 0
-        self.current_hp -= hp_taken_dmg
+        if hp_taken_dmg > 0:
+            self.current_hp -= hp_taken_dmg
         if self.current_block < 0:
             self.current_block = 0
         if self.current_hp < 0:
             self.current_hp = 0
         self.life_text = Text(f"{self.current_hp}/{self.max_hp}", self.healthb_posx + self.rect.width / 2,
                               self.healthb_posy + self.healthb_height / 2, 20, "center")
+        self.block_text = Text(f"Block: {self.current_block}", self.rect.x, self.rect.y + self.rect.height + 50, 30)
+
+    def change_block_text(self):
         self.block_text = Text(f"Block: {self.current_block}", self.rect.x, self.rect.y + self.rect.height + 50, 30)
 

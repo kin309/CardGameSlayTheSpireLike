@@ -6,8 +6,8 @@ class PlayerGameLogic:
     def __init__(self):
         self.initial_draw = 5
         self.draw_for_turn = 5
-        self.max_energy = 3
-        self.current_energy = 3
+        self.max_energy = 5
+        self.current_energy = 5
 
     def shuffle_discard_pile(self):
         for card in discardpile.cards:
@@ -23,10 +23,11 @@ class PlayerGameLogic:
             else:
                 for card in discardpile.cards:
                     deck.add_card(card)
-                discardpile.cards.clear()
+                discardpile.empty_cards()
                 deck.shuffle()
-                hand.add_card(deck.cards[0])
-                deck.remove_card(deck.cards[0])
+                if len(deck.cards) > 0:
+                    hand.add_card(deck.cards[0])
+                    deck.remove_card(deck.cards[0])
 
     def discard_hand(self):
         for card in hand.cards:
@@ -54,5 +55,6 @@ class PlayerGameLogic:
         self.current_energy = self.max_energy
         self.draw_cards(self.draw_for_turn)
 
-
+    def end_turn(self):
+        self.discard_hand()
 

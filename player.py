@@ -13,10 +13,12 @@ class Player(Creature, PlayerGameLogic):
         PlayerGameLogic.__init__(self)
 
         hand.set_interface()
-        for x in range(6):
+        for x in range(7):
             deck.add_card(BuyCard())
-        for x in range(1):
+        for x in range(2):
             deck.add_card(AttackCard())
+        for x in range(2):
+            deck.add_card(DefenseCard())
         deck.shuffle()
 
         self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 30)

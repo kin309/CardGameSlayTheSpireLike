@@ -6,11 +6,11 @@ from hand import hand
 
 
 class Card(InteractiveRectangle):
-    def  __init__(self, x=0, y=0, width=120, height=160, color=(100, 170, 30), cost=0, card_name="card"):
+    def  __init__(self, x=0, y=0, width=120, height=160, color=(100, 170, 30), cost=0, card_name="card", font_size = 20):
         super().__init__(x, y, width, height, color, True, (155, 205, 145))
         self.cost = cost
-        self.font_size = 20
-        self.original_font_size = 20
+        self.font_size = font_size
+        self.original_font_size = font_size
         self.resized_font = int(self.original_font_size*1.4)
         self.cost_text = Text(f"{self.cost}", self.rect.x, self.rect.y, self.font_size)
         self.description_text = "Essa carta não possui descrição!"
@@ -112,21 +112,24 @@ class AttackCard(Card):
 
 
 class DefenseCard(Card):
-    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2, cost = 1):
-        super(DefenseCard, self).__init__(x, y, width, height, color, cost=cost, card_name="Defense Card")
+    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2, cost = 1, font = 16):
+        super(DefenseCard, self).__init__(x, y, width, height, color, cost=cost, card_name="Defense Card", font_size=font)
         self.block = block
+        self.description_text = "Bloqueia 2"
+        self.set_description_text()
 
 
     def use(self, target, player):
         if mouse.get_pressed()[0] is True:
             player.current_block += self.block
+            player.change_block_text()
 
 class BuyCard(Card):
-    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2, cost = 1):
+    def __init__(self, x = 0, y = 0, width = 140, height = 180, color=(30, 30, 100), block = 2, cost = 0):
         super(BuyCard, self).__init__(x, y, width, height, color, cost=cost, card_name="Buy Card")
         self.block = block
-        self.num_of_cards_to_buy = 1
-        self.description_text = "Compra 1"
+        self.num_of_cards_to_buy = 2
+        self.description_text = f"Compra {self.num_of_cards_to_buy}"
         self.set_description_text()
 
 
