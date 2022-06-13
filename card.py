@@ -3,6 +3,7 @@ from screen import screen1
 from rectangle import InteractiveRectangle
 from text import Text
 from hand import hand
+from timer import timer1
 
 
 class Card(InteractiveRectangle):
@@ -14,13 +15,16 @@ class Card(InteractiveRectangle):
         self.resized_font = int(self.original_font_size*1.4)
         self.cost_text = Text(f"{self.cost}", self.rect.x, self.rect.y, self.font_size)
         self.description_text = "Essa carta não possui descrição!"
-        self.description = Text(self.description_text, self.rect.x, self.rect.y, int(self.font_size * 0.7))
+        self.description = Text(self.description_text, self.rect.x, self.rect.y, int(16))
         self.card_name = card_name
         self.card_name_text = Text(self.card_name, self.rect.x, self.rect.y, self.font_size)
         self.draggin = False
+        self.time_card_played = 0
+
 
     def play(self, target):
         if self.rect.y < 460 and mouse.get_pressed()[0] is True:
+            self.time_card_played = timer1.get_ms_time()
             return True
         else:
             return False
@@ -33,13 +37,13 @@ class Card(InteractiveRectangle):
     def texts_interface(self):
         self.card_name_text.draw()
         self.cost_text.draw()
-        self.description.draw()
+        self.description.drawParagraph((self.rect.x, self.rect.y+30, self.rect.width, self.rect.height))
 
     def set_card_name_text(self):
         self.card_name_text = Text(self.card_name, self.rect.x+25, self.rect.y, self.font_size)
 
     def set_description_text(self):
-        self.description = Text(self.description_text, self.rect.x, self.rect.y + 30, int(self.font_size * 0.7))
+        self.description = Text(self.description_text, self.rect.x, self.rect.y + 30, int(16))
 
 
     def move(self):
@@ -98,7 +102,7 @@ class AttackCard(Card):
     def __init__(self, x=0, y=0, width=140, height=180, color=(100, 30, 30), damage=3, cost = 1):
         super(AttackCard, self).__init__(x, y, width, height, color, cost = cost, card_name="Attack Card")
         self.damage = damage
-        self.description_text = "1 Dano"
+        self.description_text = "Causa 1 de dano"
         self.set_description_text()
 
     def play(self, target):
@@ -134,6 +138,5 @@ class BuyCard(Card):
 
 
     def use(self, target, player):
-        if mouse.get_pressed()[0] is True:
-            for x in range(self.num_of_cards_to_buy):
-                player.draw_cards(1)
+        for x in range(self.num_of_cards_to_buy):
+            player.draw_cards(1)

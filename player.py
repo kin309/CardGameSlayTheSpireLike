@@ -7,10 +7,9 @@ from random import choice
 from playergamelogic import PlayerGameLogic
 from text import Text
 
-class Player(Creature, PlayerGameLogic):
+class Player(PlayerGameLogic):
     def __init__(self, x=180, y=400, width=100, height=100, colorz=(10,120,30), border=True, border_color=(100,170,100)):
-        Creature.__init__(self, 10, x, y, width, height, colorz, border, border_color)
-        PlayerGameLogic.__init__(self)
+        PlayerGameLogic.__init__(self, x, y, width, height, colorz, border, border_color)
 
         hand.set_interface()
         for x in range(7):
@@ -22,6 +21,7 @@ class Player(Creature, PlayerGameLogic):
         deck.shuffle()
 
         self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 30)
+        self.change_energy_text()
 
         self.selected_card = Card()
 
@@ -43,12 +43,8 @@ class Player(Creature, PlayerGameLogic):
         self.energy_text.draw()
 
     def change_energy_text(self):
-        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x, self.rect.y, 30)
-
-
-
-
-
+        self.energy_text = Text(f"ENG: {self.current_energy}/{self.max_energy}", self.rect.x-20, self.rect.y-50, 30,
+                                color = (180, 210, 50))
 
 
 player1 = Player()

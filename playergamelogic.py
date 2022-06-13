@@ -1,9 +1,11 @@
 from cardpile import deck, discardpile
 from random import choice
 from hand import hand
+from creature import Creature
 
-class PlayerGameLogic:
-    def __init__(self):
+class PlayerGameLogic(Creature):
+    def __init__(self, x=180, y=400, width=100, height=100, colorz=(10,120,30), border=True, border_color=(100,170,100)):
+        Creature.__init__(self, 10, x, y, width, height, colorz, border, border_color)
         self.initial_draw = 5
         self.draw_for_turn = 5
         self.max_energy = 5
@@ -54,6 +56,8 @@ class PlayerGameLogic:
     def start_turn(self):
         self.current_energy = self.max_energy
         self.draw_cards(self.draw_for_turn)
+        self.current_block = 0
+        self.change_block_text()
 
     def end_turn(self):
         self.discard_hand()

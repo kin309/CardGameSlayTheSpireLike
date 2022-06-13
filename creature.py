@@ -17,6 +17,7 @@ class Creature(Rectangle):
         self.healthb_height = 30
 
         self.block_text = Text(f"Block: {self.current_block}", self.rect.x, self.rect.y + self.rect.height + 50, 30)
+        self.change_block_text()
         self.life_text = Text(f"{self.current_hp}/{self.max_hp}", self.healthb_posx+self.rect.width/2, self.healthb_posy+self.healthb_height/2, 20, "center")
         self.texts = [self.block_text, self.life_text]
 
@@ -43,7 +44,6 @@ class Creature(Rectangle):
 
     def take_damage(self, damage):
         hp_taken_dmg = damage - self.current_block
-        print(f"{damage} - {self.current_block} = {hp_taken_dmg}")
         self.current_block -= damage
         if hp_taken_dmg > 0:
             self.current_hp -= hp_taken_dmg
@@ -53,8 +53,9 @@ class Creature(Rectangle):
             self.current_hp = 0
         self.life_text = Text(f"{self.current_hp}/{self.max_hp}", self.healthb_posx + self.rect.width / 2,
                               self.healthb_posy + self.healthb_height / 2, 20, "center")
-        self.block_text = Text(f"Block: {self.current_block}", self.rect.x, self.rect.y + self.rect.height + 50, 30)
+        self.change_block_text()
 
     def change_block_text(self):
-        self.block_text = Text(f"Block: {self.current_block}", self.rect.x, self.rect.y + self.rect.height + 50, 30)
+        self.block_text = Text(f"Block: {self.current_block}", self.rect.x, self.rect.y + self.rect.height + 50, 30,
+                               color=(10, 200, 220))
 

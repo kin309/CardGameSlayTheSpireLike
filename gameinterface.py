@@ -12,7 +12,7 @@ class GameInterface(Rectangle):
 
         self.table = GameTable()
 
-        self.pass_turn_button = InterfaceButton("Pass Turn", 1415, 600, 0, 0, 35)
+        self.pass_turn_button = InterfaceButton("Pass Turn", 1415, 640, 0, 0, 35)
 
     def draw(self):
         self.table.draw()

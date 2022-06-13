@@ -7,6 +7,7 @@ from recthandler import card_handler
 from hand import hand
 from fight import fight1
 from timer import timer1
+from text import Text
 
 
 class GameScene:
@@ -83,7 +84,6 @@ class GameScene:
                         player1.start_turn()
                         self.turn += 1
                         self.once_a_turn_events_occurred = False
-
 
 
         card_handler.move_rectangle()
